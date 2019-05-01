@@ -335,7 +335,7 @@ class Music_tab(QWidget):
 		if self.table_widget.rowCount() > 0:
 			current_mode = self.controls_widget.combo_playmodes.currentText().lower()
 			if current_mode == "replay":
-				self.player_play(self.label_info.text(), self.CURRENT_URL)
+				self.player_play(self.label_title.text(), self.CURRENT_URL)
 			if current_mode in ["next", "shuffle"]:
 				self.press_next_file()
 
