@@ -185,8 +185,9 @@ class Music_tab(QWidget):
 		"""Press double on item"""
 		item.setIcon(QIcon(':/play_state.png'))
 		if self.CURRENT_ITEM_NOW:
-			if self.CURRENT_ITEM_NOW is not item:
-				self.CURRENT_ITEM_NOW.setIcon(QIcon(':/note.png'))
+			if not self.CURRENT_ITEM_NOW == item:
+				if self.CURRENT_ITEM_NOW is not None:
+					self.CURRENT_ITEM_NOW.setIcon(QIcon(':/note.png'))
 		self.CURRENT_ITEM_NOW = item
 		title = item.TITLE
 		url = item.URL
@@ -215,6 +216,7 @@ class Music_tab(QWidget):
 			if not found:
 				paths.BASE_CURSOR.execute('INSERT INTO favs VALUES(?,?)', insert_params)
 				paths.BASE_CONNECTION.commit()
+				self.check_in_fav_item()
 				
 	def press_remove_fav(self):
 		"""Press remove fav"""
@@ -224,6 +226,8 @@ class Music_tab(QWidget):
 			paths.BASE_CURSOR.execute('DELETE FROM favs WHERE name=? AND url=?', remove_params)
 			paths.BASE_CONNECTION.commit()
 			self.table_widget.removeRow(current_item.row())
+			if current_item == self.CURRENT_ITEM_NOW:
+				self.CURRENT_ITEM_NOW = None
 		
 	def press_download(self):
 		"""Press download"""
