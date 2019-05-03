@@ -86,10 +86,18 @@ class Block(QFrame):
 		self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
 		self.setStyleSheet('QFrame{border:1px solid silver; border-radius:5px;}')
 		
+	def get_normal_filename(self, file_name):
+		"""Get normal filename"""
+		file_name = file_name.replace(' ', '_')
+		good_letters = 'abcdefghijklmnopqrstuvwxyz_абвгдеёжзийклмнопрстуфхцчшщъыьэюя_1234567890'
+		normal_filename = ''.join(l for l in file_name if l.lower() in good_letters)
+		return normal_filename
+		
 	def download_file(self, title, url):
 		"""Download file"""
 		self.label_title.setText(title)
-		self.download_one_item(title, url)
+		normal_title = self.get_normal_filename(title)
+		self.download_one_item(normal_title, url)
 		
 	def download_one_item(self, title, url):
 		"""Download one item"""
